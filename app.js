@@ -3,6 +3,20 @@ let textArray = [];
 let splitArray = [];
 let objArray = [];
 
+const testData = `"1120314", "HOME TEST", "RESET991862", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-03-22", "2022-11-21"
+"1214256", "SOIL TEST", "RESET015110", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-04-14", "2022-03-22", "2022-05-21"
+"11235126", "FLOORING TEST", "RESET465002", "3", "3.00", "1.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-01-22", "2022-02-10"
+"5994323", "ELECTRICAL TEST", "RESET895674", "3", "42.00", "63.45", "TESTDATA", "Y", "Y", "2022-08-19", "2022-06-12", "2022-09-16"
+"1120314", "SHINGLES TEST", "RESET950578", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-02-22", "2022-10-29"
+"1214256", "ROOFING TEST", "RESET153582", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-04-14", "2022-11-22", "2022-11-27"
+"11235126", "PLUMBING TEST", "RESET255206", "3", "3.00", "1.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-03-22", "2022-01-10"
+"5994323", "GARDEN TEST", "RESET868833", "3", "42.00", "63.45", "TESTDATA", "Y", "Y", "2022-08-19", "2022-06-12", "2022-09-16"
+"1120314", "SUMMER TEST", "RESET602820", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-13-22", "2022-11-21"
+"1214256", "SPRING TEST", "RESET008852", "3", "12.00", "13.45", "TESTDATA", "Y", "Y", "2022-04-14", "2022-113-22", "2022-11-21"
+"11235126", "FALL TEST", "RESET909990", "3", "3.00", "1.45", "TESTDATA", "Y", "Y", "2022-05-14", "2022-03-22", "2022-01-10"
+"5994323", "WINTER TEST", "RESET260713", "3", "42.00", "63.45", "TESTDATA", "Y", "Y", "2022-08-19", "2022-06-12", "2022-09-16"`
+
+
 
 // Define object with properties corresponding to requred label fields
 class Data {
@@ -36,6 +50,7 @@ function getText() {
 }
 
 function search() {
+
     // Get search terms from text box
     let querytest = document.getElementById('numberInput').value;
 
@@ -47,14 +62,16 @@ function search() {
         for (let j = 0; j < splitArray.length; j++) {
 
             // If the reset in the CSV array contains the search number, create an object with the label properties and add to an array of those objects
-            if (splitArray[j][2].includes(queryArr[i])) {
+            if (splitArray[j][2].includes(queryArr[i]) && queryArr[i] != "") {
                 objArray.push(new Data(splitArray[j][2].replaceAll('"', ''), splitArray[j][1].replaceAll('"', ''), splitArray[j][9].replaceAll('"', ''), splitArray[j][10].replaceAll('"', '')));   
             }
+        
         }
     }
 
     console.log(objArray); 
     displayData();
+
 }
 
 // Prints the contents of the object array 
@@ -70,6 +87,11 @@ function displayData() {
     });
 
     // For each object, create a paragraph element populated with the data needed for the reset labels
+    const headerNode = document.createElement('h3');
+    headerNode.innerHTML = "Results";
+    document.getElementById('outputArea').appendChild(headerNode);
+
+
     objArray.forEach(element => {
         const node = document.createElement("p");
         node.innerHTML = 
@@ -140,9 +162,14 @@ function changeDateFormat() {
     }
     
     console.log(objArray);
-
-    
-
 }
+
+function populateTestData() {
+    resetData();
+    let textBox = document.getElementById('textInput');
+    textBox.value = '';
+    textBox.value = testData;
+}
+
 
 // TODO: Add message to display reset numbers that weren't found
